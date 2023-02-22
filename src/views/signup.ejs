@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SignUp Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<!-- <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script> -->
+<!-- Custom Theme files -->
+<link href="css/signup.css" rel="stylesheet" type="text/css" media="all" />
+<!-- //Custom Theme files -->
+<!-- web font -->
+<link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
+<!-- //web font -->
+</head>
+<body>
+	<!-- main -->
+	<div class="main-w3layouts wrapper">
+		<h1>SignUp Form</h1>
+		<div class="main-agileinfo">
+			<div class="agileits-top">
+				<form action="/signup" method="post">
+					<input class="text" type="text" name="username" placeholder="Username" required>
+					<input class="text email" type="text" name="email" placeholder="Email" required>
+					<div class="emailerror"></div>
+					<input class="text" type="password" name="password" placeholder="Password" required>
+					<div class="passworderror"></div>
+					<!-- <input class="text w3lpass" type="password" name="password" placeholder="Confirm Password" required> -->
+					
+					<input type="submit" value="SIGNUP">
+				</form>
+				<p>Do you have an Account? <a href="/"> Login Now!</a></p>
+			</div>
+		</div>
+		
+		<!-- <ul class="colorlib-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul> -->
+	</div>
+	<!-- //main -->
+	<script>
+		const form = document.querySelector('form');
+
+		const emailerror=document.querySelector('.emailerror')
+		const passworderror=document.querySelector('.passworderror')
+
+		form.addEventListener('submit', async (e)=>{
+			e.preventDefault();
+
+			
+			// reset errors
+
+			emailerror.textContent="";
+			passworderror.textContent="";
+
+			//get the values
+			const username= form.username.value;
+			const email= form.email.value;
+			const password = form.password.value;
+
+			// console.log(username,email, password);
+
+			try {
+				const res= await fetch('/signup', {
+					method: 'POST',
+					body: JSON.stringify({username:username, email:email,password:password}),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				});
+
+				const data = await res.json();
+				console.log(data);
+				if ( data.errors ){
+					emailerror.textContent=data.errors.email;
+					passworderror.textContent=data.errors.password;
+				}
+				if (data.signup){
+					location.assign('/');
+				}
+			} 
+			
+			catch (err) {
+				console.log(err);
+			}
+		})
+
+	</script>
+</body>
+</html>

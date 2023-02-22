@@ -1,0 +1,11 @@
+.container{
+    border: 2px solid black;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.form{
+    align-content: center;
+    justify-content: center;
+}

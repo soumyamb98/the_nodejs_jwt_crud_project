@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script defer src="js/loginform.js"></script>
+    <!-- html remmove before submitting -->
+    <link rel="stylesheet" href="/public/css/style.css">
+    <script defer src="/public/js/loginform.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script defer src="/js/loginform.js"></script>
+</head>
+
+<body class="body loginbg">
+
+
+
+
+
+
+
+
+
+
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link active atagnav" aria-current="page" href="/employ">Employee data</a>
+        </li>
+        <li class="nav-item anav">
+          <a class="nav-link atagnav" href="/addemploy">Add employee</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link atagnav" href="/logout">Logout</a>
+        </li>
+        
+      </ul>
+
+
+
+
+
+    <div class="container">
+        <!-- <form action="" onsubmit="return valcredential(validate)" id="form"> -->
+        <!-- <form action="/index" onsubmit="return validate()" id="form"> -->
+            
+            <form>
+                <p class="log-in">Log In</p>
+                <div class="input-container">
+
+                    <input type="text" placeholder="email" name="email" id="email"> <br>
+                    
+                </div>
+                <div class="emailerror"></div>
+                <div class="input-container">
+                    <input type="password" placeholder="Password" name="password" id="password"> <br>
+                    
+                </div>
+                <div class="passworderror"></div>
+                <!-- <div class="input-container">
+                    
+                    <span class="text-danger font-weight-bold">password 12345</span>
+                </div> -->
+                <div class="input-container">
+                    <!-- <input type="password" placeholder="Password" id="pwd" onkeyup="pwdinput()" > <br> -->
+                    <span class="text-danger font-weight-bold"><a href="/signup" class="ahrefsignup"> sign up?</a></span>
+                </div>
+                <!-- <div class="input-container-flex"> -->
+                <!-- <p class="remember-label">Remember me</p> -->
+                <!-- <input type="button" value=&#10004 class="check-box is-not-checked"> -->
+                <!-- </div> -->
+                <div class="input-container">
+                    <button type="submit" class="login-btn button1">Log in</button>
+                </div>
+            </form>
+    </div>
+
+<script>
+		let form = document.querySelector('form');
+
+        let emailerror=document.querySelector('.emailerror')
+		let passworderror=document.querySelector('.passworderror')
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+    // reset errors
+    emailerror.textContent = '';
+    passworderror.textContent = '';
+    // get values
+    let email = form.email.value;
+    let password = form.password.value;
+    try {
+      const res = await fetch('/', { 
+        method: 'POST', 
+        body: JSON.stringify({ email, password }),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.errors) {
+        emailerror.textContent = data.errors.email;
+        passworderror.textContent = data.errors.password;
+      }
+      if (data.signup) {
+        location.assign('/employ');
+      }
+    }
+    catch (err) {
+        // console.error(this.props.url, status, err.toString())
+      console.log(err);
+    }
+})
+
+        // $(document).ready(() => {
+
+        //     var email = document.getElementById("email");
+        //     var password = document.getElementById("password");
+
+        //     $(".button1").click(() => { //signIn
+        //         if (email.value.trim() == "" || password.value.trim() == "") {
+        //             email.style.border = em.value.trim() == "" ? "2px solid red" : '';
+        //             password.style.border = pas.value.trim() == "" ? "2px solid red" : '';
+
+        //             return false;
+        //         }
+
+
+        //         else {
+        //             let user = {
+        //                 username: em.value.trim(),
+        //                 password: pas.value.trim()
+        //             }
+        //             $.ajax({
+        //                 type: "POST",
+        //                 url: '/login',
+        //                 data: user,
+        //                 // dataType: 'json',
+
+        //                 success: function (response) {
+        //                     if (response.status) {
+        //                         location.replace("/")
+        //                     } else {
+        //                         alert(err)
+        //                     }
+        //                 },
+        //                 error: function (e) {
+        //                     console.log("ERROR: ", e);
+        //                 }
+        //             });
+
+        //         }
+
+
+        //     });
+        // });
+</script>
+</body>
+
+</html>
